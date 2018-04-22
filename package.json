@@ -23,5 +23,8 @@
   "homepage": "https://github.com/67P/hubot-web-push-notifications#readme",
   "dependencies": {
     "web-push": "^3.3.0"
+  },
+  "engines": {
+    "node": ">=8.0.0"
   }
 }
