@@ -4,7 +4,8 @@
   "description": "Allow users to subscribe to Web Push notifications, notifying them of mentions while away",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "generate-vapid-keys": "web-push generate-vapid-keys"
   },
   "repository": {
     "type": "git",
