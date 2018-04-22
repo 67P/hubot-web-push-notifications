@@ -1,0 +1,26 @@
+{
+  "name": "hubot-web-push-notifications",
+  "version": "1.0.0",
+  "description": "Allow users to subscribe to Web Push notifications, notifying them of mentions while away",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/67P/hubot-web-push-notifications.git"
+  },
+  "keywords": [
+    "hubot-script",
+    "kosmos"
+  ],
+  "author": "Sebastian Kippe <sebastian@kip.pe>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/67P/hubot-web-push-notifications/issues"
+  },
+  "homepage": "https://github.com/67P/hubot-web-push-notifications#readme",
+  "dependencies": {
+    "web-push": "^3.3.0"
+  }
+}
