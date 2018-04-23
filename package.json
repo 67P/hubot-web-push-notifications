@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "generate-vapid-keys": "web-push generate-vapid-keys"
+    "generate-vapid-keys": "web-push generate-vapid-keys",
+    "demo-client": "http-server demo/ -p 8888 -a 127.0.0.1"
   },
   "repository": {
     "type": "git",
@@ -22,9 +23,13 @@
   },
   "homepage": "https://github.com/67P/hubot-web-push-notifications#readme",
   "dependencies": {
+    "cors": "^2.8.4",
     "web-push": "^3.3.0"
   },
   "engines": {
     "node": ">=8.0.0"
+  },
+  "devDependencies": {
+    "http-server": "^0.11.1"
   }
 }
