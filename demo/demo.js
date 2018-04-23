@@ -1,3 +1,7 @@
+//
+// The code in this file is mostly adapted from
+// https://serviceworke.rs/push-subscription-management_index_doc.html
+//
 function urlBase64ToUint8Array(base64String) {
   var padding = '='.repeat((4 - base64String.length % 4) % 4);
   var base64 = (base64String + padding)
@@ -42,8 +46,7 @@ navigator.serviceWorker.ready.then(function(registration) {
 // register received new subscription by sending a POST request with
 // the subscription to the server.
 function subscribe() {
-  navigator.serviceWorker.ready
-  .then(async function(registration) {
+  navigator.serviceWorker.ready.then(async function(registration) {
     // Get the server's public key
     const response = await fetch(backendURL+'/vapid-public-key');
     const vapidPublicKey = await response.text();

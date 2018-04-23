@@ -113,7 +113,12 @@ module.exports = function(robot) {
 
   robot.router.get('/web-push/test', (req, res) => {
     if (subscriptions.length > 0) {
-      sendNotification(subscriptions[0].details);
+      payload = JSON.stringify({
+        "channel": "#kosmos-random",
+        "author": "edgar",
+        "message": "foobert: ohai"
+      });
+      sendNotification(subscriptions[0].details, payload);
     } else {
       robot.logger.info('Test route called, but no subscriptions available')
     }
@@ -123,7 +128,7 @@ module.exports = function(robot) {
   //
   // Notifications
   //
-  function sendNotification(subscription, payload='ohai') {
+  function sendNotification(subscription, payload) {
     let endpoint = subscription.endpoint;
     webPush.sendNotification(subscription, payload, notificationOptions).then(function() {
       robot.logger.info('Notification sent to ' + endpoint);
