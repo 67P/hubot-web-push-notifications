@@ -66,7 +66,7 @@ function subscribe() {
         'Content-type': 'application/json'
       },
       body: JSON.stringify({
-        user: 'raucao', // TODO
+        user: 'edgar', // TODO add form field
         subscription: subscription
       })
     });

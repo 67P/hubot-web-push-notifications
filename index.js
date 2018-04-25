@@ -24,28 +24,23 @@ module.exports = function(robot) {
   webPush.setVapidDetails(vapidSubject, vapidPublicKey, vapidPrivateKey);
 
   const notificationOptions = {
+    // TODO
     // gcmAPIKey: '< GCM API Key >',
     // TTL: <Number>,
-    // headers: {
-    //   '< header name >': '< header value >'
-    // },
-    // contentEncoding: '< Encoding type, e.g.: aesgcm or aes128gcm >'
   }
-
-  const pushInterval = 10; // seconds
 
   let subscriptions;
 
   robot.brain.on('loaded', function() {
     subscriptions = robot.brain.get('web-push-subscriptions');
-    robot.logger.debug(util.inspect(subscriptions));
+    robot.logger.debug('Web push subscriptions : ' + util.inspect(subscriptions));
   });
 
-  robot.brain.on('save', function() {
-    robot.logger.debug('brain saved. memory vs redis:');
-    robot.logger.debug(util.inspect(subscriptions.length));
-    robot.logger.debug(util.inspect(robot.brain.get('web-push-subscriptions').length));
-  });
+  // robot.brain.on('save', function() {
+  //   robot.logger.debug('brain saved. memory vs redis:');
+  //   robot.logger.debug(util.inspect(subscriptions.length));
+  //   robot.logger.debug(util.inspect(robot.brain.get('web-push-subscriptions').length));
+  // });
 
   //
   // Subscription management
@@ -66,9 +61,6 @@ module.exports = function(robot) {
   function registerSubscription (user, subscription) {
     let sub = { user: user, details: subscription };
     subscriptions.push(sub);
-    // robot.brain.set('web-push-subscriptions', subscriptions); //TODO interval
-    // let subs = robot.brain.get('web-push-subscriptions'); //TODO interval
-    // robot.logger.debug('Subscriptions ' + util.inspect(subs));
     robot.logger.debug('Subscription registered ' + subscription.endpoint);
   }
 
@@ -111,23 +103,10 @@ module.exports = function(robot) {
     res.send(204);
   });
 
-  robot.router.get('/web-push/test', (req, res) => {
-    if (subscriptions.length > 0) {
-      payload = JSON.stringify({
-        "channel": "#kosmos-random",
-        "author": "edgar",
-        "message": "foobert: ohai"
-      });
-      sendNotification(subscriptions[0].details, payload);
-    } else {
-      robot.logger.info('Test route called, but no subscriptions available')
-    }
-    res.send(200);
-  });
-
   //
   // Notifications
   //
+
   function sendNotification(subscription, payload) {
     let endpoint = subscription.endpoint;
     webPush.sendNotification(subscription, payload, notificationOptions).then(function() {
@@ -138,9 +117,35 @@ module.exports = function(robot) {
     });
   }
 
-  // TODO prune subs periodically
-  // setInterval(function() {
-  //   Object.values(subscriptions).forEach(sendNotification);
-  // }, pushInterval * 1000);
+  robot.listen(message => {
+    // Not all message objects support matching
+    if (!message.match) { return false; }
+
+    // TODO match only valid IRC nicks
+    const match = message.match(/^(.+): /);
+
+    if (match && subscriptions.map(s => s.user).includes(match[1])) {
+      return match[1];
+    } else {
+      return false;
+    }
+  }, res => {
+    const room = res.message.user.room;
+    const user = res.match;
+    const usersOnline = robot.adapter.getChanData(room).users;
+    robot.logger.debug(`Subscribed user mentioned: ${user}`);
+
+    if (!Object.keys(usersOnline).includes(user)) {
+      robot.logger.debug('User not present. Sending web push notification...');
+      payload = JSON.stringify({
+        "channel": room,
+        "author": res.message.user.name,
+        "message": res.message.text
+      });
+      sendNotification(subscriptions[0].details, payload);
+    } else {
+      robot.logger.debug('User is present. Nothing to do.');
+    }
+  });
 
 };
