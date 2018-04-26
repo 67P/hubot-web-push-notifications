@@ -14,7 +14,9 @@
   },
   "keywords": [
     "hubot-script",
-    "kosmos"
+    "kosmos",
+    "web-push",
+    "irc"
   ],
   "author": "Sebastian Kippe <sebastian@kip.pe>",
   "license": "MIT",
