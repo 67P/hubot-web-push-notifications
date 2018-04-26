@@ -20,12 +20,17 @@ module.exports = function(robot) {
   const vapidSubject = process.env.VAPID_SUBJECT || 'https://hyperchannel.kosmos.org';
   const vapidPublicKey = process.env.VAPID_PUBLIC_KEY;
   const vapidPrivateKey = process.env.VAPID_PRIVATE_KEY;
+  const gcmAPIKey = process.env.GCM_API_KEY || '';
+
+  if (!gcmAPIKey) {
+    robot.logger.info('Warning: You should set a GCM_API_KEY for Web Push notifications');
+  }
 
   webPush.setVapidDetails(vapidSubject, vapidPublicKey, vapidPrivateKey);
 
   const notificationOptions = {
-    // TODO
-    // gcmAPIKey: '< GCM API Key >',
+    gcmAPIKey: gcmAPIKey,
+    // TODO evaluate all possible options
     // TTL: <Number>,
   }
 
