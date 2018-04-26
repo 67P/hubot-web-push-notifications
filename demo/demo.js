@@ -17,8 +17,7 @@ function urlBase64ToUint8Array(base64String) {
   return outputArray;
 }
 
-// TODO get from form field
-const backendURL = 'http://localhost:4242/web-push';
+const backendURL = document.getElementById('hubotUrl').value + '/web-push';
 
 let subscriptionButton = document.getElementById('subscriptionButton');
 
@@ -66,7 +65,7 @@ function subscribe() {
         'Content-type': 'application/json'
       },
       body: JSON.stringify({
-        user: 'edgar', // TODO add form field
+        user: document.getElementById('username').value,
         subscription: subscription
       })
     });

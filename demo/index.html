@@ -5,7 +5,35 @@
   <title>Web Push Demo</title>
 </head>
 <body>
+  <h2>Hubot Web Push Demo</h2>
+  <p>
+    You can use this demo client to subscribe to Web Push notifications with a
+    Hubot chatbot running
+    <a href="https://github.com/67P/hubot-web-push-notifications">hubot-web-push-notifications</a>.
+  </p>
+  <p>
+    Change the Hubot URL to point to wherever your Hubot Express API is
+    running. Then choose a username to get notifications for.
+  </p>
+  <p>
+    After you have subscribed (you can see the subscription in your Hubot DEBUG
+    logs), mention your name in a channel that Hubot is in. If your username is
+    not present in that channel, and you don't have a tab focussed with this
+    demo page (other tab is fine), you should receive a push notification with
+    the message content.
+  </p>
+  <p>
+    <label for="hubotUrl">Hubot URL</label><br>
+    <input type="text" id="hubotUrl" value="http://localhost:4242">
+  </p>
+    <p>
+      <label for="username">Username</label><br>
+    <input type="text" id="username" value="edgar">
+  </p>
+  <p>
   <button id="subscriptionButton" disabled="disabled"></button>
+  </p>
+
   <script src="demo.js"></script>
 </body>
 </html>
