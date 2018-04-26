@@ -23,12 +23,12 @@ Install the script package:
 
 Add it to `external-scripts.json`:
 
-``json
+```json
 [
   "hubot-redis-brain",
   "hubot-web-push-notifications"
 ]
-``
+```
 
 _Hint: You should persist the robot's brain using something like
 [hubot-redis-brain](https://github.com/hubotio/hubot-redis-brain)._
