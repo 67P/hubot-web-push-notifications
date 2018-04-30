@@ -55,8 +55,8 @@ module.exports = function(robot) {
     return subscriptions.find(s => s.details.endpoint === endpoint);
   }
 
-  function subscriptionForUser (user) {
-    return subscriptions.find(s => s.user === user);
+  function subscriptionsForUser (user) {
+    return subscriptions.filter(s => s.user === user);
   }
 
   function registerSubscription (user, subscription) {
@@ -138,13 +138,13 @@ module.exports = function(robot) {
 
     if (!Object.keys(usersOnline).includes(user)) {
       robot.logger.debug('User not present. Sending web push notification...');
-      const subscription = subscriptionForUser(user);
       payload = JSON.stringify({
         "channel": room,
         "author": res.message.user.name,
         "message": res.message.text
       });
-      sendNotification(subscription.details, payload);
+      const subs = subscriptionsForUser(user);
+      subs.forEach(sub => sendNotification(sub.details, payload));
     } else {
       robot.logger.debug('User is present. Nothing to do.');
     }
