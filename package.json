@@ -1,6 +1,6 @@
 {
   "name": "hubot-web-push-notifications",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "Allow users to subscribe to Web Push notifications, notifying them of mentions while away",
   "main": "index.js",
   "scripts": {
