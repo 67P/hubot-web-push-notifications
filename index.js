@@ -38,7 +38,14 @@ module.exports = function(robot) {
 
   robot.brain.on('loaded', function() {
     subscriptions = robot.brain.get('web-push-subscriptions');
-    robot.logger.debug('Web push subscriptions : ' + util.inspect(subscriptions));
+
+    if (! subscriptions) {
+      robot.brain.set('web-push-subscriptions', []);
+      subscriptions = robot.brain.get('web-push-subscriptions');
+      robot.logger.info('Web push subscriptions initialized: ' + util.inspect(subscriptions));
+    } else {
+      robot.logger.info('Web push subscriptions: ' + util.inspect(subscriptions));
+    }
   });
 
   // robot.brain.on('save', function() {
@@ -62,7 +69,7 @@ module.exports = function(robot) {
   function registerSubscription (user, subscription) {
     let sub = { user: user, details: subscription };
     subscriptions.push(sub);
-    robot.logger.debug('Subscription registered ' + subscription.endpoint);
+    robot.logger.info('Subscription registered ' + subscription.endpoint);
   }
 
   function unregisterSubscription (endpoint) {
@@ -71,7 +78,7 @@ module.exports = function(robot) {
     })
     if (subIndex !== -1) {
       subscriptions.splice(subIndex, 1)
-      robot.logger.debug('Subscription unregistered ' + endpoint);
+      robot.logger.info('Subscription unregistered ' + endpoint);
     };
   }
 
